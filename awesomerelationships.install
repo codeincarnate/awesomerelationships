@@ -46,11 +46,17 @@ function awesomerelationships_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'revision_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
     ),
-    'primary key' => array('relationship_id', 'entity_type', 'entity_id'),
+    'primary key' => array('relationship_id', 'entity_type', 'entity_id', 'revision_id'),
     'indexes' => array(
       'relationship_id' => array('relationship_id'),
-      'entity' => array('entity_type', 'entity_id'),
+      'entity' => array('entity_type', 'entity_id', 'revision_id'),
     ),
   );
   return $schema;
