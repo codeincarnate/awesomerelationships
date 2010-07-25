@@ -229,6 +229,11 @@ function awesomerelationships_field_widget_form(&$form, &$form_state, $field, $i
     '#type' => 'textfield',
     '#default_value' => isset($items[$delta]) ? $items[$delta]['entity_id'] : '',
   );
+  $element['revision_id'] = array(
+    '#title' => t('Revision ID'),
+    '#type' => 'textfield',
+    '#default_value' => isset($items[$delta]) ? $items[$delta]['revision_id'] : '',
+  );
   return $element;
 }
 
