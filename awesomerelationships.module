@@ -190,12 +190,23 @@ function awesomerelationships_field_formatter_prepare_view($entity_type, $entiti
   $entities_to_load = array();
   foreach ($items as $key => $item) {
     foreach ($item as $delta => $value) {
-      $entities_to_load[$value['entity_type']][] = $value['entity_id'];
-      $lookup[$value['entity_type']][$value['entity_id']][] = array($key, $delta);
+      $entities_to_load[$value['entity_type']][] = array($value['entity_id'], $value['revision_id']);
+      $lookup[$value['entity_type']][$value['entity_id']][$value['revision_id']][] = array($key, $delta);
     }
   }
-  foreach ($entities_to_load as $entity_type => $ids) {
-    $entities = entity_load($entity_type, $ids);
+  foreach ($entities_to_load as $entity_type => $pairs) {
+    foreach ($pairs as $pair) {
+      $ids[] = $pair[0];
+      $vids[] = $pair[1];
+    }
+    if (empty(array_filter($vids))) {
+      $entities = entity_load($entity_type, $ids);
+    }
+    else {
+      // @TODO Load every entity by revision id manually
+      foreach ($ids as $key => $id) {
+      }
+    }
     foreach ($entities as $entity_id => $entity) {
       foreach ($lookup[$entity_type][$entity_id] as $data) {
         $items[$data[0]][$data[1]]['entity'] = $entity;
